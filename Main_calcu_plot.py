@@ -101,7 +101,7 @@ def doubleIntegrateplot(d_limit_func1,d_limit_func2,llim,hlim):
     color1_rgb,color2_rgb=choosen_color_rgb(2)
     df = pd.DataFrame({"x": x, "y1": y1})
     df1 = pd.DataFrame({"x": y2, "y2": x})
-    pltfig, ax = plt.subplots(figsize=(8, 4))
+    pltfig, ax = plt.subplots(figsize=(9, 4))
     ax.plot(x, y1, linewidth=2,color=color1_rgb)
     ax.plot(y2, x, linewidth=2.0,color=color2_rgb)
     ax.grid(True, linewidth=0.2)
