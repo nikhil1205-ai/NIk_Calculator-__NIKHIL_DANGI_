@@ -4,6 +4,11 @@ import Main_calculation
 import sympy as sy
 import time
 
+st.set_page_config(
+    page_title="Nik Calculator",
+    layout="wide",
+    initial_sidebar_state="expanded")
+
 st.sidebar.title("Nik Calculator 📟📟")
 st.sidebar.write("")
 category=st.sidebar.selectbox(label="Types of Calculation",options=("Select on this","Integral"))
