@@ -7,12 +7,24 @@ import scipy
 import regex
 import streamlit as st
 
+def lower_of_xyza(func_text):
+    func_text_m=func_text
+    if "X" in func_text:
+       func_text_m=func_text.replace("X","x")
+    if "Y" in func_text:
+        func_text_m=func_text.replace("Y","y")
+    if "Z" in func_text:
+        func_text_m=func_text.replace("Z","z")
+    if "A" in func_text:
+        func_text_m=func_text.replace("A","a")
+    return func_text_m
 
 class SimpleIntegral:
     def __init__ (self,var):
        self.var=sy.Symbol(var)
 
     def S_limit_func(self,func_text):
+        func_text=lower_of_xyza(func_text)
         try:
             if "^" in func_text:
                       func_text = func_text.replace('^', '**')
@@ -41,6 +53,7 @@ class SimpleIntegral:
               return  False,st.error(f"Please Give function except:-   {func_text}", icon="🚨")
         
     def S_No_limit_func(self,func_text):
+        func_text=lower_of_xyza(func_text)
         try :
              if "^" in func_text:
                   func_text = func_text.replace('^', '**')
@@ -75,11 +88,19 @@ class SimpleIntegral:
     
     def Calculate_Integral(self,func,llim,hlim):
             try:             
-                deri_wthout_limit = sy.integrate(func,self.var)
-                return deri_wthout_limit
+                integ_wthout_limit = sy.integrate(func,self.var)
+                format_wthout_limit = sy.Integral(func,(self.var,llim,hlim))
+                format_limit = sy.Integral(func,self.var)
+                return integ_wthout_limit,format_wthout_limit,format_limit
             except :
+                try:
                    deri_wth_limit=scipy.integrate.quad(func,llim,hlim)
                    return deri_wth_limit
+                except Exception as e:                 
+                    if llim==0 or hlim==0:
+                       deri_wth_limit=scipy.integrate.quad(func,llim+0.000001,hlim+0.000001)
+                       return deri_wth_limit
+
      
   
 class DoubleIntegral(SimpleIntegral):

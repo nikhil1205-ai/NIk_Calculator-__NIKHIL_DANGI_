@@ -22,20 +22,20 @@ if category=="Integral":
            var=st.sidebar.segmented_control("Choose Variable",options=["x","y","z","a"],selection_mode="single")
            if var in ["x","y","z","a"]:
              SI=Main_calculation.SimpleIntegral(var)
-             func_text=st.sidebar.text_input(f"Enter cool function in :red[{var}] 👇")
+             func_text=st.sidebar.text_input(f"Enter cool function in :red[{var}] Term 👇 ")
              if func_text!="":
                 check,limit_func=SI.S_limit_func(f"lambda {var}:"+func_text)
                 No_limit_func=SI.S_No_limit_func(func_text)
 
                 if check:
-                     llim,hlim=st.sidebar.slider(label="select limit of function",min_value=-100, max_value=100, value=(0,8),key=256)
+                     llim,hlim=st.sidebar.slider(label="Select limit of function",min_value=-100, max_value=100, value=(0,8),key=256)
                      llim=st.sidebar.number_input(label="Enter The Lower Limit",value=float(llim),key=124)
                      hlim=st.sidebar.number_input(label="Enter The High limit",value=float(hlim),key=451)
                      with st.container():                  
                         st.plotly_chart(Main_calcu_plot.SimpleIntegrateplot(limit_func,llim,hlim))
                      
                      st.write("")
-                     progress_text="Take a cup of tea ☕☕"
+                     progress_text="☕ Take a cup of Tea ☕☕"
                      my_bar = st.progress(0, text=progress_text)
                      st.markdown('<h3 style="color:red; ">Integration of Given Function</h3>', unsafe_allow_html=True)
                      st.write("")
@@ -46,20 +46,35 @@ if category=="Integral":
                      time.sleep(0.5)
                      my_bar.empty()
                      
-                     no_limit_integ=SI.Calculate_Integral(No_limit_func,llim,hlim)
+                     no_limit_integ,format_witout_limit,format_limit=SI.Calculate_Integral(No_limit_func,llim,hlim)
                      limit_integ=SI.Calculate_Integral(limit_func,llim,hlim)[0]
-                     st.write("Integration of ",f'''<h style="color:orange;"> { No_limit_func }  </h> Without Limit :- ''',no_limit_integ,unsafe_allow_html=True)
-                     st.write("")
-                     st.write("")
-                     st.write("Integration of ",f'''<h style="color:orange;"> { No_limit_func } </h> With Limit :-''',"   ",limit_integ,unsafe_allow_html=True)
+
+                     col1, col2,col3= st.columns([2,0.5,2],gap="small")
+                     with col1:
+                        st.write(format_limit)
+                        st.divider()
+                        st.write(format_witout_limit)
+         
+                     with col3:
+                        st.write(no_limit_integ)
+                        st.divider()
+                        st.write("")
+                        st.write("")
+                        st.write(f"### :green[{limit_integ}]")  
+
+
+                     #st.write("Integration of ",f'''<h style="color:orange;"> { format}  </h> Without Limit :- ''',no_limit_integ,unsafe_allow_html=True)
+                     #st.write("")
+                     #st.write( format,limit_integ)
+                     #st.write("Integration of ",f'''<h style="color:orange;"> { No_limit_func } </h> With Limit :-''',"   ",limit_integ,unsafe_allow_html=True)
 
 
    if sub_cate=="Double-Integral":
-      var=st.sidebar.segmented_control("Given variable ",["x","y","z"],selection_mode="multi")
+      var=st.sidebar.segmented_control("Select variable ",["x","y","z"],selection_mode="multi")
       if len(var)!=0:
-           func1_text=st.sidebar.text_input(f"Enter cool function in :red[{var[0]}]👇",key=123)
+           func1_text=st.sidebar.text_input(f"Enter cool function in :red[{var[0]}] Term 👇",key=123)
       if len(var)>1:
-           func2_text=st.sidebar.text_input(f"Enter cool function in :red[{var[1]}] 👇",key=478)
+           func2_text=st.sidebar.text_input(f"Enter cool function in :red[{var[1]}] Term 👇",key=478)
            DI=Main_calculation.DoubleIntegral(var[0],var[1])
            if func1_text!="" and func2_text!="":
                   check,d_limit_func1=DI.S_limit_func(f"lambda {var[0]}:"+func1_text)
@@ -68,11 +83,11 @@ if category=="Integral":
                   No_limit_func2=DI.S_No_limit_func(func2_text)
                   
                   if check and check1:
-                        llim,hlim=st.sidebar.slider(label="select limit of function",min_value=-100, max_value=100, value=(-30,30),key=256)
+                        llim,hlim=st.sidebar.slider(label="Select limit of function",min_value=-100, max_value=100, value=(-30,30),key=256)
                         with st.container():             
                            st.plotly_chart(Main_calcu_plot.doubleIntegrateplot(d_limit_func1,d_limit_func2,llim,hlim))               
                         
-                        to_respect=st.sidebar.segmented_control("To_respect want First ",["dx","dy","dz"],selection_mode="single")
+                        to_respect=st.sidebar.segmented_control("To respect want First Integration ",["dx","dy","dz"],selection_mode="single")
                         if to_respect!=None:
                               to_resp_var=None
                               if to_respect=="dx":
@@ -86,12 +101,12 @@ if category=="Integral":
                               solve_points=DI.Intersection_point_l(No_limit_func1,No_limit_func2) 
                               col1, col2 = st.columns(2)
                               with col1:
-                                 low_limit = st.sidebar.text_input(f"Low Limit of {var_first}", placeholder="Enter text here")
+                                 low_limit = st.sidebar.text_input(f"Low Limit in :red[{var_second}] Term", placeholder="Enter text here")
                                  X_low_limit=DI.S_No_limit_func(low_limit)
                               with col2:
-                                 high_limit = st.sidebar.text_input(f"High Limit of {var_first}", placeholder="Enter text here")
+                                 high_limit = st.sidebar.text_input(f"High Limit in :red[{var_second}] Term", placeholder="Enter text here")
                                  X_high_limit=DI.S_No_limit_func(high_limit)
-                              points=st.sidebar.segmented_control(f"Choose {var_second} limits",[f"{i}" for i in solve_points],
+                              points=st.sidebar.segmented_control(f"Choose :red[d{var_second}] limits",[f"{i}" for i in solve_points],
                                                                   selection_mode="multi")
                               if len(points)>1:
                                  progress_text="Take a cup of tea ☕☕"
