@@ -108,16 +108,20 @@ class DoubleIntegral(SimpleIntegral):
        self.var0,self.var1 = sy.symbols(f"{var0} {var1}")
     
     def Intersection_point_l(self,No_limit_func1,No_limit_func2):
-        eq1 = sy.Eq(self.var0, No_limit_func1)
-        eq2 = sy.Eq(self.var1, No_limit_func2)
-        solutions = sy.solve([eq1, eq2], (self.var0,self.var1))
+        eq1 = sy.Eq(self.var1, No_limit_func1)
+        eq2 = sy.Eq(self.var0, No_limit_func2)
+        solutions = sy.solve([eq1, eq2], (self.var1,self.var0))
         solutions=[list(i) for i in solutions]
         point_list=[]
         for i in solutions:
            l=[]
            for j in i:
+             try: 
               l.append(float(round(eval(str(j)),3)))
-           point_list.append(l)
+             except :
+                 break
+           if len(l) != 0:
+                point_list.append(l)
         return point_list
     
     def Calculate_D_Integral(self,X_low_limit,X_high_limit,point1,point2,var_first,var_second):     

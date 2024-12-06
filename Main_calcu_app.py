@@ -100,35 +100,35 @@ if category=="Integral":
                               var_second=[var[1] if var[0]==to_resp_var else var[0]][0]
                               solve_points=DI.Intersection_point_l(No_limit_func1,No_limit_func2) 
                               col1, col2 = st.columns(2)
-                              with col1:
-                                 low_limit = st.sidebar.text_input(f"Low Limit in :red[{var_second}] Term", placeholder="Enter text here")
+                              
+                              low_limit = st.sidebar.text_input(f"Low Limit in :red[{var_second}] Term", placeholder="Enter text here")
+                              high_limit = st.sidebar.text_input(f"High Limit in :red[{var_second}] Term", placeholder="Enter text here")
+                              if low_limit!="" and high_limit!="":
                                  X_low_limit=DI.S_No_limit_func(low_limit)
-                              with col2:
-                                 high_limit = st.sidebar.text_input(f"High Limit in :red[{var_second}] Term", placeholder="Enter text here")
                                  X_high_limit=DI.S_No_limit_func(high_limit)
-                              points=st.sidebar.segmented_control(f"Choose :red[d{var_second}] limits",[f"{i}" for i in solve_points],
-                                                                  selection_mode="multi")
-                              if len(points)>1:
-                                 progress_text="Take a cup of tea ☕☕"
-                                 my_bar = st.progress(0, text=progress_text)
-                                 st.markdown('<h3 style="color:red; ">Integration of Given Function</h3>', unsafe_allow_html=True)
-                                 st.write("")
+                                 points=st.sidebar.segmented_control(f"Choose :red[d{var_second}] limits",[f"{i}" for i in solve_points],
+                                                                     selection_mode="multi")
+                                 if len(points)>1:
+                                    progress_text="Take a cup of tea ☕☕"
+                                    my_bar = st.progress(0, text=progress_text)
+                                    st.markdown('<h3 style="color:red; ">Integration of Given Function</h3>', unsafe_allow_html=True)
+                                    st.write("")
 
-                                 for percent_complete in range(100):
-                                    time.sleep(0.02)
-                                    my_bar.progress(percent_complete + 1, text=progress_text)
-                                 time.sleep(0.5)
-                                 my_bar.empty()
+                                    for percent_complete in range(100):
+                                       time.sleep(0.02)
+                                       my_bar.progress(percent_complete + 1, text=progress_text)
+                                    time.sleep(0.5)
+                                    my_bar.empty()
 
-                                 point1,point2=(eval(points[0]),eval(points[1]))
-                                 if var_second=="x" or var_first=="z":
-                                    integral,integration_value=DI.Calculate_D_Integral(X_low_limit,X_high_limit,point1[0],point2[0],var_first,var_second)
-                                 if var_second=="y" or var_second=="z":
-                                    integral,integration_value=DI.Calculate_D_Integral(X_low_limit,X_high_limit,point1[1],point2[1],var_first,var_second)
-                                                      
-                                 st.write(integral,unsafe_allow_html=True)
-                                 st.write("")
-                                 st.write("")
-                                 st.write("#### :blue[Integration value is:]",integration_value)
+                                    point1,point2=(eval(points[0]),eval(points[1]))
+                                    if var_second=="x" or var_first=="z":
+                                       integral,integration_value=DI.Calculate_D_Integral(X_low_limit,X_high_limit,point1[0],point2[0],var_first,var_second)
+                                    if var_second=="y" or var_second=="z":
+                                       integral,integration_value=DI.Calculate_D_Integral(X_low_limit,X_high_limit,point1[1],point2[1],var_first,var_second)
+                                                         
+                                    st.write(integral,unsafe_allow_html=True)
+                                    st.write("")
+                                    st.write("")
+                                    st.write("#### :blue[Integration value is:]",integration_value)
 
 
