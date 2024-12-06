@@ -124,7 +124,15 @@ class DoubleIntegral(SimpleIntegral):
                 point_list.append(l)
         return point_list
     
-    def Calculate_D_Integral(self,X_low_limit,X_high_limit,point1,point2,var_first,var_second):     
+    def Calculate_D_Integral_X_y(self,X_low_limit,X_high_limit,point1,point2,var_first,var_second):     
          integral = sy.Integral(1, (sy.symbols(f"{var_first}"), X_low_limit, X_high_limit), (sy.symbols(f"{var_second}"), point1, point2))
          Integration_value = sy.integrate(1, (sy.symbols(f"{var_first}"), X_low_limit, X_high_limit), (sy.symbols(f"{var_second}"), point1, point2))
+         return integral,Integration_value
+    
+    def Calculate_D_Integral_Fxy(self,d_No_limit_func,low_limit_func_var0,high_limit_func_var0,
+                             low_limit_func_var1,high_limit_func_var1,var_first,var_second):     
+         integral = sy.Integral(d_No_limit_func, (sy.symbols(f"{var_first}"),low_limit_func_var0,high_limit_func_var0),
+                                 (sy.symbols(f"{var_second}"),low_limit_func_var1,high_limit_func_var1))
+         Integration_value = sy.integrate(1, (sy.symbols(f"{var_first}"),low_limit_func_var0,high_limit_func_var0),
+                                           (sy.symbols(f"{var_second}"),low_limit_func_var1,high_limit_func_var1))
          return integral,Integration_value
