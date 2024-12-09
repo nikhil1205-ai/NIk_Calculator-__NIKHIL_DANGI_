@@ -136,3 +136,40 @@ class DoubleIntegral(SimpleIntegral):
          Integration_value = sy.integrate(1, (sy.symbols(f"{var_first}"),low_limit_func_var0,high_limit_func_var0),
                                            (sy.symbols(f"{var_second}"),low_limit_func_var1,high_limit_func_var1))
          return integral,Integration_value
+
+    def Equation_Function_var0(self,equa_text,var_first,var_second):
+      var_first,var_second = sy.symbols(f"{var_first} {var_second}")
+      try:
+        equa_text_l,equa_text_r=equa_text.split("=")
+        equa_text_l=self.S_No_limit_func(equa_text_l)
+        equa_text_r=self.S_No_limit_func(equa_text_r)
+        equation = sy.Eq(equa_text_l,equa_text_r)
+        solution_var_first = sy.solve(equation, var_first)
+        return solution_var_first
+        
+      except:
+         return st.error(f"Please Give Equation except :-   {equa_text}", icon="🚨")
+    
+    def Equation_Function_var1(self,low_limit_func_var0,high_limit_func_var0,var_first,var_second):
+      var_first,var_second = sy.symbols(f"{var_first} {var_second}")
+      try:
+        low_limit_var0=self.S_No_limit_func(low_limit_func_var0)
+        high_limit_var0=self.S_No_limit_func(high_limit_func_var0)
+        low_equation = sy.Eq(low_limit_var0,0)
+        high_equation = sy.Eq(high_limit_var0,0)
+        solution_low_limit = [sy.simplify(i) for i in sy.solve(low_equation,var_second)]
+        solution_high_limit = [sy.simplify(i) for i in sy.solve( high_equation, var_second)]
+        return solution_low_limit,solution_high_limit
+        
+      except:
+         return st.error(f"Please Give Equation except :-  ", icon="🚨")
+      
+    def Calculate_D_Integral_fequal_Xy(self,low_limit_func_var0,high_limit_func_var0,
+                             low_limit_func_var1,high_limit_func_var1,var_first,var_second):
+              
+         integral = sy.Integral(1, (sy.symbols(f"{var_first}"),low_limit_func_var0,high_limit_func_var0),
+                                 (sy.symbols(f"{var_second}"),low_limit_func_var1,high_limit_func_var1))
+         Integration_value = sy.integrate(1, (sy.symbols(f"{var_first}"),low_limit_func_var0,high_limit_func_var0),
+                                           (sy.symbols(f"{var_second}"),low_limit_func_var1,high_limit_func_var1))
+         return integral,Integration_value
+
