@@ -12,11 +12,11 @@ def lower_of_xyza(func_text):
     if "X" in func_text:
        func_text_m=func_text.replace("X","x")
     if "Y" in func_text:
-        func_text_m=func_text.replace("Y","y")
+        func_text_m=func_text_m.replace("Y","y")
     if "Z" in func_text:
-        func_text_m=func_text.replace("Z","z")
+        func_text_m=func_text_m.replace("Z","z")
     if "A" in func_text:
-        func_text_m=func_text.replace("A","a")
+        func_text_m=func_text_m.replace("A","a")
     return func_text_m
 
 class SimpleIntegral:
@@ -173,3 +173,15 @@ class DoubleIntegral(SimpleIntegral):
                                            (sy.symbols(f"{var_second}"),low_limit_func_var1,high_limit_func_var1))
          return integral,Integration_value
 
+class TripleIntegral(SimpleIntegral):
+    def __init__ (self,var0,var1,var2):
+       self.var0,self.var1,self.var2 = sy.symbols(f"{var0} {var1} {var2}")
+    def Calculate_T_Integral_Fxy(self,d_No_limit_func,var0_low_limit,var0_high_limit,
+                     var1_low_limit,var1_high_limit,var2_low_limit,var2_high_limit,var_first,var_second,var_third):
+              
+         integral = sy.Integral(d_No_limit_func, (sy.symbols(f"{var_first}"),var0_low_limit,var0_high_limit),
+                 (sy.symbols(f"{var_second}"),var1_low_limit,var1_high_limit),(sy.symbols(f"{var_third}"),var2_low_limit,var2_high_limit))
+         Integration_value = sy.integrate(d_No_limit_func, (sy.symbols(f"{var_first}"),var0_low_limit,var0_high_limit),
+                 (sy.symbols(f"{var_second}"),var1_low_limit,var1_high_limit),(sy.symbols(f"{var_third}"),var2_low_limit,var2_high_limit))
+         
+         return integral,Integration_value

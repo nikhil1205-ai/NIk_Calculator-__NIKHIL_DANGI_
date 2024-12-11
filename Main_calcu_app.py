@@ -5,7 +5,6 @@ import Main_calculation
 import Main_support
 
 
-
 st.set_page_config(
     page_title="Nik Calculator",
     layout="wide",
@@ -71,9 +70,9 @@ if category=="Integral":
                      No_limit_func2=DI.S_No_limit_func(func2_text)
                      
                      if check and check1:
-                           llim,hlim=st.sidebar.slider(label="Expand function Graph",min_value=-100, max_value=100, value=(-30,30),key=256)
+                           llim,hlim=st.sidebar.slider(label="Expand function Graph",min_value=-100, max_value=100, value=(-90,90),key=256)
                            with st.container():             
-                              st.plotly_chart(Main_calcu_plot.doubleIntegrateplot(d_limit_func1,d_limit_func2,llim,hlim))               
+                              st.plotly_chart(Main_calcu_plot.doubleIntegrateplot(d_limit_func1,d_limit_func2,llim,hlim),use_container_width=False)               
                            
                            to_respect=st.sidebar.segmented_control("To respect want First Integration ",["dx","dy","dz"],selection_mode="single")
                            if to_respect!=None:
@@ -107,11 +106,11 @@ if category=="Integral":
             func_text=st.sidebar.text_input(f"Enter cool function in :red[{var[0],var[1]}]👇 Term",key=123)
             DI=Main_calculation.DoubleIntegral(var[0],var[1])
             if func_text!="":
-                  d_limit_func=DI.S_limit_func(f"lambda {var[0]},{var[1]}:"+func_text)
+                  check,d_limit_func=DI.S_limit_func(f"lambda {var[0]},{var[1]}:"+func_text)
                   d_No_limit_func=DI.S_No_limit_func(func_text)
                   llim,hlim=st.sidebar.slider(label="Expand function Graph",min_value=-100, max_value=100, value=(-30,30),key=256)
-                  #with st.container():             
-                     #st.plotly_chart(Triple_plot.doubleIntegrateplot(d_limit_func1,d_limit_func2,llim,hlim))               
+                  with st.container():            
+                     st.plotly_chart(Main_calcu_plot.doubleIntegrate_Fxy_plot(d_limit_func),use_container_width=False)               
                   to_respect=st.sidebar.segmented_control("To respect want First Integrationt ",["dx","dy","dz"],selection_mode="single")
                   if to_respect!=None:
                               var_first=Main_support.to_respect_first_second(to_respect)
@@ -175,6 +174,55 @@ if category=="Integral":
                           st.write("")
                           st.write("")
                           st.write("#### :blue[Integration value is:]",integration_value)
-          
 
+   if sub_cate=="Triple-Integral":          
+      sub_cate=st.sidebar.selectbox("Types of Calculation",("Select function type","f(x,y,z)=X^2+Y^2+Z^2","x^2+y^2+z^2=0"))
+      if sub_cate=="f(x,y,z)=X^2+Y^2+Z^2":
+         var=st.sidebar.segmented_control("Given variable ",["x","y","z"],selection_mode="multi")
+         if len(var)>2:
+            func_text=st.sidebar.text_input(f"Enter cool function in :red[{var[0],var[1],var[2]}]👇 Term",key=123)
+            TI=Main_calculation.TripleIntegral(var[0],var[1],var[2])
+            if func_text!="":
+                  #check,d_limit_func=DI.S_limit_func(f"lambda {var[0]},{var[1],var[2]}:"+func_text)
+                  d_No_limit_func=TI.S_No_limit_func(func_text)
+                  llim,hlim=st.sidebar.slider(label="Expand function Graph",min_value=-100, max_value=100, value=(-30,30),key=256)
+                  #with st.container():            
+                     #st.plotly_chart(Main_calcu_plot.doubleIntegrate_Fxy_plot(d_limit_func),use_container_width=False) 
+                                   
+                  to_respect_f=st.sidebar.segmented_control("To respect want First Integrationt ",["dx","dy","dz"],selection_mode="single",key=124)
+                  to_respect_s=st.sidebar.segmented_control("To respect want Second Integrationt ",["dx","dy","dz"],selection_mode="single")
+                  if to_respect_f!=None and to_respect_s!=None:
+                              var_first=Main_support.to_respect_first_second(to_respect_f)
+                              var_second=Main_support.to_respect_first_second(to_respect_s)
+                              var_third=None
+                              if var_first == var[0] and var_second == var[1]:
+                                    var_third=var[2]
+                              elif var_first == var[0] and var_second == var[2]:
+                                    var_third=var[1]
+                              elif var_first == var[1] and var_second == var[2]:
+                                    var_third=var[0]  
+                              low_limit_func_var0 = st.sidebar.text_input(f"Low Limit in :red[{var_second} of d{var_first}] Term", placeholder="Enter text here",key=111)
+                              high_limit_func_var0  = st.sidebar.text_input(f"High Limit in :red[{var_second} of d{var_first}] Term", placeholder="Enter text here",key=112)
+                              st.sidebar.divider()
+                              low_limit_func_var1 = st.sidebar.text_input(f"Low Limit in :red[{var_third} of d{var_second}] Term", placeholder="Enter text here",key=121)
+                              high_limit_func_var1  = st.sidebar.text_input(f"Low Limit in :red[{var_third} of d{var_second}] Term", placeholder="Enter text here",key=122)
+                              st.sidebar.divider()
+                              low_limit_func_var2 = st.sidebar.text_input(f"Low Limit of :red[d{var_third}] Term", placeholder="Enter text here",key=211)
+                              high_limit_func_var2  = st.sidebar.text_input(f"Low Limit of :red[d{var_third}] Term", placeholder="Enter text here",key=222)                
+                              if low_limit_func_var0!="" and high_limit_func_var2!="":
+                                  var0_low_limit=TI.S_No_limit_func(low_limit_func_var0)
+                                  var0_high_limit=TI.S_No_limit_func(high_limit_func_var0)
 
+                                  var1_low_limit=TI.S_No_limit_func(low_limit_func_var1)
+                                  var1_high_limit=TI.S_No_limit_func(high_limit_func_var1)
+
+                                  var2_low_limit=TI.S_No_limit_func(low_limit_func_var2)
+                                  var2_high_limit=TI.S_No_limit_func(high_limit_func_var2)
+                     
+                                  integral,integration_value=TI.Calculate_T_Integral_Fxy(d_No_limit_func,var0_low_limit,var0_high_limit,
+                                                                     var1_low_limit,var1_high_limit,var2_low_limit,var2_high_limit,var_first,var_second,var_third)  
+                                  Main_support.progress_bar()                               
+                                  st.write(integral,unsafe_allow_html=True)
+                                  st.write("")
+                                  st.write("")
+                                  st.write("#### :blue[Integration value is:]",integration_value)

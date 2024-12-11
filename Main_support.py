@@ -24,3 +24,15 @@ def to_respect_first_second(to_respect):
         if to_respect=="dz":
                to_resp_var="z"
         return to_resp_var
+    
+def lower_of_xyza(func_text):
+    func_text_m=func_text
+    if "X" in func_text:
+       func_text_m=func_text.replace("X","x")
+    if "Y" in func_text:
+        func_text_m=func_text.replace("Y","y")
+    if "Z" in func_text:
+        func_text_m=func_text.replace("Z","z")
+    if "A" in func_text:
+        func_text_m=func_text.replace("A","a")
+    return func_text_m

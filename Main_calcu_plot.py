@@ -117,3 +117,31 @@ def doubleIntegrateplot(d_limit_func1,d_limit_func2,llim,hlim):
        yaxis_title="Y-axis" )
     
     return fig
+
+
+def doubleIntegrate_Fxy_plot(d_limit_func):
+    def funcvalue(x,y):
+      try:
+        return d_limit_func(x,y)
+      except:
+         return d_limit_func(abs(x),abs(y))
+
+    x=np.linspace(-10,10,200)
+    y=np.linspace(-10,10,200)
+    x, y = np.meshgrid(x, y)
+    z=funcvalue(x,y)
+
+    colorlist = ["Viridis","Cividis","Blues","Greens","Reds","Inferno","Plasma",
+               "Magma","Turbo","RdBu","Spectral","Coolwarm","Twilight","HSV","Electric"]
+    color=np.random.choice(colorlist)
+  
+    fig = go.Figure()
+    fig = go.Figure(data=[go.Surface(z=z, x=x, y=y,colorscale=color)])
+    fig.update_layout(title=f"3D Plot of f(x, y)",title_font=dict(size=25, color='red', family='Arial'),
+        width=900,height=700,
+        scene=dict(
+        xaxis_title="x",
+        yaxis_title="y",
+        zaxis_title="f(x, y)"))
+    
+    return fig
